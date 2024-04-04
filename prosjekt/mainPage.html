@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="no">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="mainCSS.css">
+        <title>fagdag prosjekt</title>
+    </head>
+    <body id="mainBody">
+            <form id="inputForm">
+                <input placeholder="fornavn" type="text" name="fornavn" id="fornavn" required>
+                <input placeholder="etternavn" type="text" name="etternavn" id="etternavn" required>
+                <input placeholder="adresse" type="text" id="adresse" required>
+                <input placeholder="tlf.nr" type="text" id="tlfnr" required>
+                <input placeholder="Skriv et sitat!" type="text" id="sitatFelt" required>
+                <div id="birthday">
+                    <p>velg fødseldato</p>
+                    <input type="date" name="birthday" required>
+                </div>
+                <select name="russeFarge" id="russeFarge" required>
+                    <option value="">velg din russefarge</option>
+                    <option value="red">Rød</option>
+                    <option value="black">Svart</option>
+                    <option value="blue">Blå</option>
+                </select>
+                    <input type="radio" id="mann" name="sex" value="mann" class="sex" required>
+                    <label for="mann" id="labelMann" class="sex">Mann</label>
+                    <input type="radio" id="kvinne" name="sex" value="kvinne" class="sex">
+                    <label for="kvinne" id="labelKvinne" class="sex">Kvinne</label>
+                    <input type="radio" id="annet" name="sex" value="annet" class="sex">
+                    <label for="annet" id="labelAnnet" class="sex">Annet</label>
+                <button id="sendData">Generer russekort</button>
+            </form>
+            <div id="russekort"></div>
+    </body>
+</html>
+<script>
+    let mainBodyEl = document.querySelector('#mainBody')
+    let inputFormEl = document.querySelector('#inputForm')
+        inputForm.addEventListener('submit',(event)=> {
+            // event.preventDefault;
+            let forN    = document.getElementById('fornavn').value;
+            let ettN    = document.getElementById('etternavn').value;
+            let adr     = document.getElementById('adresse').value;
+            let tlf     = document.getElementById('tlfnr').value;
+            let sitat   = document.getElementById('sitatFelt').value;
+            let type   = document.getElementById('russeFarge').value;
+            let sex     = document.querySelector('input[name="sex"]:checked').value;
+            let dato    = document.querySelector('input[name="birthday"]').value;
+            // temp
+            let fylke = 'Dusterud';
+            let vgs = 'Mailand VGS';
+            let navn = `${forN} ${ettN}`
+            // fylke,vgs,type,navn,adr,tlf,sitat
+            RussekortF(fylke,vgs,type,navn,tlf,sitat)
+        })
+
+    function sendBtnHandler(a){
+        console.log('test')
+    }
+// fylke API
+    let fylkeEl = document.createElement('div')
+
+// Bilde API
+
+// russekort  -  russekortEl
+    function RussekortF(fylke,vgs,type,navn,adr,tlf,sitat){
+        let higher = document.getElementById('russekort')
+            higher.setAttribute('id','russekort')
+        // topp
+        let toppBarEl = document.createElement('div')
+            toppBarEl.setAttribute('id','toppBar')
+        let fylkeEl = document.createElement('div')
+            fylkeEl.innerHTML=fylke;
+        let vgsEl = document.createElement('div')
+            vgsEl.innerHTML=vgs;
+        let aarEl = document.createElement('div')
+            aarEl.innerHTML='2019'
+            toppBarEl.appendChild(fylkeEl)
+            toppBarEl.appendChild(vgsEl)
+            toppBarEl.appendChild(aarEl)
+        // right - type, navn, adr, tlf, sitat
+        let rightBarEl = document.createElement('div')
+        let typeEl    = document.createElement('div')
+        let navnEl    = document.createElement('div')
+            navnEl.innerHTML=navn;
+        let adrEl     = document.createElement('div')
+            adrEl.innerHTML=adr;
+        let tlfEl     = document.createElement('div')
+            tlfEl.innerHTML=tlf;
+        let sitatEl   = document.createElement('div')
+            rightBarEl.setAttribute('id','rightBar')
+            rightBarEl.appendChild(typeEl)
+            rightBarEl.appendChild(navnEl)
+            rightBarEl.appendChild(adrEl)
+            rightBarEl.appendChild(tlfEl)
+            rightBarEl.appendChild(sitatEl)
+        // left
+        let leftBarEl = document.createElement('div')
+            leftBarEl.setAttribute('id','leftBar')
+        if (type=='red'){
+            higher.style.backgroundColor = "red";
+            typeEl.innerHTML='RØD RUSS';
+        }else if (type=='black'){
+            higher.style.backgroundColor = "black";
+            typeEl.innerHTML='SORT Russ';
+        }else{
+            higher.style.backgroundColor = "blue";
+            typeEl.innerHTML='BLÅ RUSS';
+        }
+        higher.appendChild(toppBarEl)
+        higher.appendChild(leftBarEl)
+        higher.appendChild(rightBarEl)
+        mainBodyEl.appendChild(higher)
+    }
+</script>
